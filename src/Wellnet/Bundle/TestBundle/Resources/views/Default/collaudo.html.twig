@@ -1,0 +1,33 @@
+{% extends "::base.html.twig" %}
+
+{% block content %}
+    <div class="page-header">
+        <h1>collaudo</h1>
+    </div>
+
+    <ul>
+        <li>F1.1: <a href="{{ path('wellnet_test_create_poi_node', {'method': 'createPOI'}) }}">Crea un poi</a>
+        </li>
+        <li>F1.2: <a href="{{ path('wellnet_test_delete_node', {'nid': 0, 'method': 'deletePOI'}) }}">Elimina un
+                poi</a></li>
+        <li>F1.3: <a href="{{ path('wellnet_test_update_poi_node', {'nid': 0, 'method': 'updatePOI'}) }}">Aggiorna
+                un poi</a></li>
+        <li>F1.4: <a href="{{ path('wellnet_test_list_nodes', {'type': 'poi', 'method': 'getPOIs'}) }}">Elenca i
+                poi</a></li>
+        <li>F1.5: <a href="{{ path('wellnet_test_list_all_nodes', {'method': 'getNodes'}) }}">Elenca tutti i
+                nodi</a></li>
+        <li>F1.6: <a href="{{ path('wellnet_test_list_comments', {'nid': 0, 'method': 'getComments'}) }}">Mostra
+                i commenti di un nodo</a></li>
+        <li>F1.7: <a
+                    href="{{ path('wellnet_test_create_accreditation_node', {'method': 'createAccreditation'}) }}">Crea
+                un accreditamento</a></li>
+        <li>F1.8: <a
+                    href="{{ path('wellnet_test_get_node', {'nid': 0, 'method': 'getAccreditationDetails'}) }}">Dettaglio
+                accreditmento</a></li>
+        <li>F1.9: <a
+                    href="{{ path('wellnet_test_change_state', {'nid': 0, 'state': 'xxx', 'method': 'changeState'}) }}">Cambia
+                stato di moderazione</a></li>
+    </ul>
+
+    <a href="{{ path('wellnet_test_3_legged', {'method': 'getNodes'}) }}">Elenca i nodi - 3 legged</a>
+{% endblock %}

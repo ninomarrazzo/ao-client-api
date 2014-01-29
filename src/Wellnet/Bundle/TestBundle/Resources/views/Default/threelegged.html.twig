@@ -1,0 +1,13 @@
+{% extends "::base.html.twig" %}
+
+{% block content %}
+    <div class="page-header">
+        <h1>3-legged</h1>
+    </div>
+
+    <h3>Nodes</h3>
+    <ul>
+        <li><a href="{{ path('wellnet_test_3_legged', {'method': 'getNodes'}) }}">getNodes</a></li>
+    </ul>
+
+{% endblock %}

@@ -1,0 +1,29 @@
+parameters:
+
+# symfony parameters
+  database_driver: pdo_mysql
+  database_host: 127.0.0.1
+  database_port: null
+  database_name: symfony
+  database_user: root
+  database_password: null
+  mailer_transport: smtp
+  mailer_host: 127.0.0.1
+  mailer_user: null
+  mailer_password: null
+  locale: en
+  secret: ThisTokenIsNotSoSecretChangeIt
+
+# rest client parameters
+  server_url: http://areaoperatori.demo.sardegnait.it
+  consumer_key: VvdnCFfdT2t4KRn4vDiezSMF4ZeN7g9u
+  consumer_secret: PEj75ac9kqwFLRRnpouQC2ztshvmAEnP
+  consumer_key_3legged: esubmPgd5bjauzEwUSnzHxbTHgueHR8C
+  consumer_secret_3legged: FKUznD4wcFEXUb5PY7CAVnbfx62g4ycc
+  request_token_uri: http://areaoperatori.demo.sardegnait.it/oauth/request_token
+  authorize_uri: http://areaoperatori.demo.sardegnait.it/oauth/authorize
+  access_token_uri: http://areaoperatori.demo.sardegnait.it/oauth/access_token
+  resource_uri: http://areaoperatori.demo.sardegnait.it/en/api_3_legs/1.0/node
+  username: sardegnait
+  password: 111111
+

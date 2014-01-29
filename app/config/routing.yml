@@ -1,0 +1,4 @@
+wellnet_test:
+    resource: "@WellnetTestBundle/Resources/config/routing.yml"
+    prefix:   /
+
