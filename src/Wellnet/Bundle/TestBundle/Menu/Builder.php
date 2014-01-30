@@ -17,7 +17,8 @@ class Builder extends ContainerAware {
     $menu->addChild('2-legged', array('route' => 'wellnet_test_2legged'));
     $menu->addChild('3-legged', array('route' => 'wellnet_test_3legged'));
     $menu->addChild('collaudo', array('route' => 'wellnet_test_collaudo'));
-    $menu->addChild('help', array('route' => 'wellnet_test_help'));
+    $menu->addChild('help Ita', array('route' => 'wellnet_test_help_ita'));
+    $menu->addChild('help Eng', array('route' => 'wellnet_test_help_eng'));
 
     return $menu;
   }

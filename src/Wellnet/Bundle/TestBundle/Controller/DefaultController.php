@@ -11,38 +11,12 @@ use Symfony\Component\HttpFoundation\Response;
 class DefaultController extends Controller {
 
   /**
+   * @param string $page
+   *
    * @return Response
    */
-  public function indexAction() {
-    return $this->render('WellnetTestBundle:Default:index.html.twig');
-  }
-
-  /**
-   * @return Response
-   */
-  public function collaudoAction() {
-    return $this->render('WellnetTestBundle:Default:collaudo.html.twig');
-  }
-
-  /**
-   * @return Response
-   */
-  public function twoleggedAction() {
-    return $this->render('WellnetTestBundle:Default:twolegged.html.twig');
-  }
-
-  /**
-   * @return Response
-   */
-  public function threeleggedAction() {
-    return $this->render('WellnetTestBundle:Default:threelegged.html.twig');
-  }
-
-  /**
-   * @return Response
-   */
-  public function helpAction() {
-    return $this->render('WellnetTestBundle:Default:help.html.twig');
+  public function indexAction($page) {
+    return $this->render("WellnetTestBundle:Default:{$page}.html.twig");
   }
 
 }

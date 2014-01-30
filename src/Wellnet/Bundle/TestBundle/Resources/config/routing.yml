@@ -1,22 +1,26 @@
 wellnet_test_homepage:
     pattern:  /
-    defaults: { _controller: WellnetTestBundle:Default:index }
+    defaults: { _controller: WellnetTestBundle:Default:index, page: index }
 
 wellnet_test_2legged:
     pattern:  /twolegged
-    defaults: { _controller: WellnetTestBundle:Default:twolegged }
+    defaults: { _controller: WellnetTestBundle:Default:index, page: twolegged }
 
 wellnet_test_3legged:
     pattern:  /threelegged
-    defaults: { _controller: WellnetTestBundle:Default:threelegged }
+    defaults: { _controller: WellnetTestBundle:Default:index, page: threelegged }
 
 wellnet_test_collaudo:
     pattern:  /collaudo
-    defaults: { _controller: WellnetTestBundle:Default:collaudo }
+    defaults: { _controller: WellnetTestBundle:Default:index, page: collaudo }
 
-wellnet_test_help:
-    pattern:  /help
-    defaults: { _controller: WellnetTestBundle:Default:help }
+wellnet_test_help_ita:
+    pattern:  /help_ita
+    defaults: { _controller: WellnetTestBundle:Default:index, page: helpIta }
+
+wellnet_test_help_eng:
+    pattern:  /help_eng
+    defaults: { _controller: WellnetTestBundle:Default:index, page: helpEng }
 
 # structure
 
