@@ -1,0 +1,154 @@
+{% extends "::base.html.twig" %}
+
+{% block content %}
+    <div class="page-header">
+        <h1>Help</h1>
+    </div>
+
+    <div class="row">
+        <div class="col-md-3">
+            <div class="hidden-print affix" role="complementary" style="width: 263px;">
+                <ul class="nav bs-sidenav" style="background-color: #F7F5FA;">
+                    <li>
+                        <a href="#struttura">Structure</a>
+                    </li>
+                    <li>
+                        <a href="#configurazione">Configuration</a>
+                    </li>
+                    <li>
+                        <a href="#2legged">OAuth 2-legged</a>
+                    </li>
+                    <li>
+                        <a href="#3legged">OAuth 3-legged</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="col-md-9">
+
+            <h3 id="struttura">Structure</h3>
+
+            <p>This REST Client is strictly related to AreaOperatori website based on Symfony2 framework.
+                The HTTP client library is based on <a href="http://guzzlephp.org">Guzzle</a>.
+                There are three different functionalities provided by the REST client: <a
+                        href="{{ path('wellnet_test_collaudo') }}">"collaudo" (used for functional tests)</a>, <a href="{{ path('wellnet_test_2legged') }}">OAuth 2-legged reference implementation</a> and a simple <a
+                        href="{{ path('wellnet_test_3legged') }}">OAuth 3-legged reference implementation</a> e .
+            </p>
+
+            <p>For each API, a route has been defined in <code>Resources/config/routing.yml</code>, as well as the relative method, inside a specific controller. E.g.:</p>
+
+            <div class="highlight">
+<pre>
+<code>
+    wellnet_test_get_structure:
+        pattern: /structure/node/{type}
+        defaults: { _controller: WellnetTestBundle:Structure:getStructure }
+</code>
+</pre>
+            </div>
+
+            <p>This route calls <code>getStructureAction()</code>, provided inside StructureController. Each method instances the above mentioned HTTP client and send the HTTP request to API's endpoint. Please note Oauth 2-legged and Oauth 3-legged have different endpoints:</p>
+
+            <div class="highlight">
+<pre>
+<code>
+    public function getStructureAction(Request $request, $type) {
+        $client = $this->getClient($request);
+
+        $request = $client->post('/api/1.0/structure/get_structure', NULL, array('type' => $type));
+        $data = $request->send();
+
+        return $this->render('WellnetTestBundle:Default:response.html.twig', array('data' => $data));
+    }
+</code>
+</pre>
+            </div>
+
+            <p>Some methods requires mandatory/non-mandatory parameters, which maybe passed as URL paths, inside query strings or inside the body post of the request;
+                thèse paramètres must be defined as follows, respectively:</p>
+
+            <div class="highlight">
+<pre>
+<code>
+    $request = $client->post("/en/api/1.0/structure/change_state/{$nid}/{$state}");
+    $data = $request->send();
+</code>
+</pre>
+            </div>
+
+            <div class="highlight">
+<pre>
+<code>
+    $request = $client->get('/en/api/1.0/comment');
+    $query = $request->getQuery();
+    $query->set('parameters', array('nid' => $nid));
+    $data = $request->send();
+</code>
+</pre>
+            </div>
+
+            <div class="highlight">
+<pre>
+<code>
+    $request = $client->post('/en/api/1.0/node', NULL, array(
+        'node' => array(
+            'type' => 'poi',
+            'title' => 'POI di test',
+            [...]
+        )
+    ));
+    $data = $request->send();
+</code>
+</pre>
+            </div>
+
+            <p>Please, before starting make sure to clear the application cache by typing inside the root folder:</p>
+
+            <div class="highlight">
+<pre>
+<code>
+    $> php app/console cache:clear
+</code>
+</pre>
+            </div>
+
+            <h3 id="configurazione">Configuration</h3>
+
+            <p>The application must be rightly configured before being used, by editing <code>app/config/parameters.yml</code>.
+            </p>
+
+            <h3 id="2legged">OAuth 2-legged</h3>
+
+            <p>OAuth 2 legged method shares a pair of key and secret tokens between client and server.
+                No user active interaction is required.
+                Every request is executed with a single user, which is linked to the key/secret pair provided inside the configuration file.
+                You must provide the right <code>server_url</code>, <code>consumer_key</code> and <code>consumer_secret</code> value.
+                The client is built up in this way:</p>
+
+            <div class="highlight">
+<pre>
+<code>
+    $client = new Client($this->container->getParameter('server_url'));
+
+    $oauth = new OauthPlugin(array(
+        'consumer_key' => $this->container->getParameter('consumer_key'),
+        'consumer_secret' => $this->container->getParameter('consumer_secret'),
+    ));
+    $client->addSubscriber($oauth);
+</code>
+</pre>
+            </div>
+
+            <h3 id="3legged">OAuth 3-legged</h3>
+
+            <p>OAuth 3 legged method shares a pair of key and secret tokens between client and server.
+                User interaction is required whenever a new session starts: the system will ask the user if it wants to allow a 3d party application to access on his behalf.
+                Every request is executed with a single user, which is linked to the key/secret pair provided inside the configuration file.</p>
+            <p>Please see a reference implementation in ThreeLeggedController class
+                Necessary configurations are to be set inside <code>server_url</code>, <code>consumer_key_3legged</code>, <code>consumer_secret_3legged</code>, <code>request_token_uri</code>, <code>authorize_uri</code>, <code>access_token_uri</code> and <code>resource_uri</code>.</p>
+
+            <p style="text-align:center; margin-top: 40px;"><img src="{{ asset('bundles/wellnettest/images/ThreeLeggedOAuthDance.gif') }}" /></p>
+        </div>
+    </div>
+{% endblock %}
