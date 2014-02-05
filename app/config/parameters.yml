@@ -15,15 +15,15 @@ parameters:
   secret: ThisTokenIsNotSoSecretChangeIt
 
 # rest client parameters
-  server_url: http://areaoperatori.demo.sardegnait.it
-  consumer_key: VvdnCFfdT2t4KRn4vDiezSMF4ZeN7g9u
-  consumer_secret: PEj75ac9kqwFLRRnpouQC2ztshvmAEnP
+  server_url: http://ao
+  consumer_key: QyfHxEZsQm96nXbT32Q3QN95jahBtqvC
+  consumer_secret: R9v7GQMHTKNoAUvS5txinymZKCau7uki
   consumer_key_3legged: esubmPgd5bjauzEwUSnzHxbTHgueHR8C
   consumer_secret_3legged: FKUznD4wcFEXUb5PY7CAVnbfx62g4ycc
-  request_token_uri: http://areaoperatori.demo.sardegnait.it/oauth/request_token
-  authorize_uri: http://areaoperatori.demo.sardegnait.it/oauth/authorize
-  access_token_uri: http://areaoperatori.demo.sardegnait.it/oauth/access_token
-  resource_uri: http://areaoperatori.demo.sardegnait.it/en/api_3_legs/1.0/node
+  request_token_uri: http://ao/oauth/request_token
+  authorize_uri: http://ao/oauth/authorize
+  access_token_uri: http://ao/oauth/access_token
+  resource_uri: http://ao/en/api_3_legs/1.0/node
   username: sardegnait
   password: 111111
 

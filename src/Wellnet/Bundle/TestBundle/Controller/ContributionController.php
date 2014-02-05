@@ -78,9 +78,7 @@ class ContributionController extends BaseClientController {
   public function getMediaAction(Request $request, $nid) {
     $client = $this->getClient($request);
 
-    $request = $client->post('/en/api/1.0/contributions/get_media', NULL, array(
-      'nid' => $nid,
-    ));
+    $request = $client->post("/en/api/1.0/contributions/get_media/{$nid}");
     $data = $request->send();
 
     return $this->render('WellnetTestBundle:Default:response.html.twig', array('data' => $data));
@@ -110,9 +108,7 @@ class ContributionController extends BaseClientController {
   public function getRelatedAction(Request $request, $nid) {
     $client = $this->getClient($request);
 
-    $request = $client->post('/en/api/1.0/contributions/get_related', NULL, array(
-      'nid' => $nid,
-    ));
+    $request = $client->post("/en/api/1.0/contributions/get_related/{$nid}");
     $data = $request->send();
 
     return $this->render('WellnetTestBundle:Default:response.html.twig', array('data' => $data));
