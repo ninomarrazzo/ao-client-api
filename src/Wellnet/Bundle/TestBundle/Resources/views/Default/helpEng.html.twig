@@ -10,6 +10,9 @@
             <div class="hidden-print affix" role="complementary" style="width: 263px;">
                 <ul class="nav bs-sidenav" style="background-color: #F7F5FA;">
                     <li>
+                        <a href="#installation">Installation</a>
+                    </li>
+                    <li>
                         <a href="#struttura">Structure</a>
                     </li>
                     <li>
@@ -27,13 +30,26 @@
 
         <div class="col-md-9">
 
+            <h3 id="installation">Installation</h3>
+
+            <p>Before you can use the application you need to download the libraries on which it depends using <a href="http://getcomposer.org">Composer</a>.</p>
+            <p>After you have installed Composer on your machine is sufficient to go to the application's root folder (the one containing the <code> composer.json </code> and <code> composer.lock </code>) and issue the command:</p>
+
+            <div class="highlight">
+<pre>
+<code>
+    $> composer install
+</code>
+</pre>
+            </div>
+
             <h3 id="struttura">Structure</h3>
 
-            <p>This REST Client is strictly related to AreaOperatori website based on Symfony2 framework.
+            <p>This REST Client is strictly related to AreaOperatori website and is based on Symfony2 framework.
                 The HTTP client library is based on <a href="http://guzzlephp.org">Guzzle</a>.
                 There are three different functionalities provided by the REST client: <a
                         href="{{ path('wellnet_test_collaudo') }}">"collaudo" (used for functional tests)</a>, <a href="{{ path('wellnet_test_2legged') }}">OAuth 2-legged reference implementation</a> and a simple <a
-                        href="{{ path('wellnet_test_3legged') }}">OAuth 3-legged reference implementation</a> e .
+                        href="{{ path('wellnet_test_3legged') }}">OAuth 3-legged reference implementation</a>.
             </p>
 
             <p>For each API, a route has been defined in <code>Resources/config/routing.yml</code>, as well as the relative method, inside a specific controller. E.g.:</p>
@@ -56,7 +72,7 @@
     public function getStructureAction(Request $request, $type) {
         $client = $this->getClient($request);
 
-        $request = $client->post('/api/1.0/structure/get_structure', NULL, array('type' => $type));
+        $request = $client->post('/en/api/1.0/structure/get_structure', NULL, array('type' => $type));
         $data = $request->send();
 
         return $this->render('WellnetTestBundle:Default:response.html.twig', array('data' => $data));
@@ -145,8 +161,7 @@
             <p>OAuth 3 legged method shares a pair of key and secret tokens between client and server.
                 User interaction is required whenever a new session starts: the system will ask the user if it wants to allow a 3d party application to access on his behalf.
                 Every request is executed with a single user, which is linked to the key/secret pair provided inside the configuration file.</p>
-            <p>Please see a reference implementation in ThreeLeggedController class
-                Necessary configurations are to be set inside <code>server_url</code>, <code>consumer_key_3legged</code>, <code>consumer_secret_3legged</code>, <code>request_token_uri</code>, <code>authorize_uri</code>, <code>access_token_uri</code> and <code>resource_uri</code>.</p>
+            <p>Please see a reference implementation in ThreeLeggedController class. Necessary configurations are to be set inside <code>server_url</code>, <code>consumer_key_3legged</code>, <code>consumer_secret_3legged</code>, <code>request_token_uri</code>, <code>authorize_uri</code>, <code>access_token_uri</code> and <code>resource_uri</code>.</p>
 
             <p style="text-align:center; margin-top: 40px;"><img src="{{ asset('bundles/wellnettest/images/ThreeLeggedOAuthDance.gif') }}" /></p>
         </div>

@@ -10,6 +10,9 @@
             <div class="hidden-print affix" role="complementary" style="width: 263px;">
                 <ul class="nav bs-sidenav" style="background-color: #F7F5FA;">
                     <li>
+                        <a href="#installazione">Installazione</a>
+                    </li>
+                    <li>
                         <a href="#struttura">Struttura</a>
                     </li>
                     <li>
@@ -26,6 +29,19 @@
         </div>
 
         <div class="col-md-9">
+
+            <h3 id="installazione">Installazione</h3>
+
+            <p>Prima di poter utilizzare l'applicazione è necessario scaricare le librerie da cui dipende utilizzando <a href="http://getcomposer.org">Composer</a>.</p>
+            <p>Dopo aver installato Composer sulla propria macchina è sufficiente posizionarsi nella cartella radice dell'applicazione (quella contente i file <code>composer.json</code> e <code>composer.lock</code>) e lanciare il comando:</p>
+
+            <div class="highlight">
+<pre>
+<code>
+    $> composer install
+</code>
+</pre>
+            </div>
 
             <h3 id="struttura">Struttura</h3>
 
@@ -62,7 +78,7 @@
     public function getStructureAction(Request $request, $type) {
         $client = $this->getClient($request);
 
-        $request = $client->post('/api/1.0/structure/get_structure', NULL, array('type' => $type));
+        $request = $client->post('/en/api/1.0/structure/get_structure', NULL, array('type' => $type));
         $data = $request->send();
 
         return $this->render('WellnetTestBundle:Default:response.html.twig', array('data' => $data));
