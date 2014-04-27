@@ -5,7 +5,7 @@ namespace Wellnet\Bundle\TestBundle\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class PoiNodeController extends NodeController {
+class PoiNodeController extends ThreeLeggedController {
 
   /**
    * @param Request $request

@@ -4,35 +4,68 @@ namespace Wellnet\Bundle\TestBundle\Controller;
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Guzzle\Http\Client;
+use Guzzle\Plugin\Oauth\OauthPlugin;
+use Symfony\Component\HttpFoundation\Session\Session;
 
-class WorkshopController extends BaseClientController {
+class WorkshopController extends ThreeLeggedController {
 
   /**
-   * @param Request $request
-   * @param $nid
+   * @param $session
+   * @param $request
    *
-   * @return Response
+   * @return mixed
    */
-  public function getAttendeesAction(Request $request, $nid) {
-    $client = $this->getClient($request);
+  protected function fetch(Session $session, Request $request) {
+    $route = $request->get('_route');
 
-    $request = $client->post('/en/api/1.0/workshop/get_attendees', NULL, array(
-      'nid' => $nid,
+    $client = new Client($this->container->getParameter('server_url'));
+    $oauth = new OauthPlugin(array(
+      'consumer_key' => $this->consumer_key,
+      'consumer_secret' => $this->consumer_secret,
+      'token' => $session->get('access_token'),
+      'token_secret' => $session->get('access_token_secret'),
     ));
-    $data = $request->send();
+    $client->addSubscriber($oauth);
 
-    return $this->render('WellnetTestBundle:Default:response.html.twig', array('data' => $data));
+    $response = NULL;
+    switch ($route) {
+      case 'wellnet_test_get_workshop_attendees':
+        $response = $this->getAttendeesAction($request, $client);
+        break;
+      case 'wellnet_test_create_attendee_node':
+        $response = $this->createAttendeeAction($request, $client);
+        break;
+    }
+
+    return $response;
   }
 
   /**
    * @param Request $request
+   * @param $client
    *
    * @return Response
    */
-  public function createAttendeeAction(Request $request) {
-    $client = $this->getClient($request);
+  public function getAttendeesAction(Request $request, Client $client) {
+    $nid = $request->get('nid');
 
-    $request = $client->post('/en/api/1.0/node', NULL, array(
+    $request = $client->post('/en/api_3_legs/1.0/workshop/get_attendees', NULL, array(
+      'nid' => $nid,
+    ));
+    $response = $request->send();
+
+    return $response;
+  }
+
+  /**
+   * @param Request $request
+   * @param $client
+   *
+   * @return Response
+   */
+  public function createAttendeeAction(Request $request, Client $client) {
+    $request = $client->post('/en/api_3_legs/1.0/node', NULL, array(
       'node' => array(
         'type' => 'attendee',
         // text field
@@ -63,9 +96,9 @@ class WorkshopController extends BaseClientController {
         'field_perc_winter' => array('und' => array(0 => array('value' => 10))),
       )
     ));
-    $data = $request->send();
+    $response = $request->send();
 
-    return $this->render('WellnetTestBundle:Default:response.html.twig', array('data' => $data));
+    return $response;
   }
 
 }

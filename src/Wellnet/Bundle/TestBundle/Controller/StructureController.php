@@ -5,7 +5,7 @@ namespace Wellnet\Bundle\TestBundle\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class StructureController extends BaseClientController {
+class StructureController extends ThreeLeggedController {
 
   /**
    * @param Request $request

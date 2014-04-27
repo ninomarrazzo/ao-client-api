@@ -5,9 +5,169 @@
         <h1>3-legged</h1>
     </div>
 
-    <h3>Nodes</h3>
+    <h3>Structure</h3>
     <ul>
-        <li><a href="{{ path('wellnet_test_3_legged', {'method': 'getNodes'}) }}">getNodes</a></li>
+        <li><a href="{{ path('wellnet_test_get_structure', {'type': 'attendee', 'method': 'getNodeStructure'}) }}">getNodeStructure</a>
+        </li>
+        <li><a href="{{ path('wellnet_test_change_state', {'nid': 0, 'state': 'xxx', 'method': 'changeState'}) }}">changeState</a>
+        </li>
+        <li>
+            <a href="{{ path('wellnet_test_unpublish_live', {'nid': 0, 'vid': 0, 'state': 'xxx', 'method': 'unpublishLive'}) }}">unpublishLive</a>
+        </li>
+    </ul>
+
+    <h3>Users</h3>
+    <ul>
+        <li><a href="{{ path('wellnet_test_list_users', {'method': 'getUsers'}) }}">getUsers</a></li>
+        <li><a href="{{ path('wellnet_test_get_user', {'uid' :1, 'method': 'getUserDetails'}) }}">getUserDetails</a>
+        </li>
+        <li>
+            <a href="{{ path('wellnet_test_get_user_accreditation', {'id':'tnsmcl68b21i452p', 'method':'getUserAccreditations'}) }}">getUserAccreditations</a>
+        </li>
+    </ul>
+
+    <h3>Accreditation</h3>
+    <ul>
+        <li><a href="{{ path('wellnet_test_list_nodes', {'type': 'accreditamento', 'method': 'getAccreditations'}) }}">getAccreditations</a>
+        </li>
+        <li><a href="{{ path('wellnet_test_get_node', {'nid': 23617, 'method': 'getAccreditationDetails'}) }}">getAccreditationDetails</a>
+        </li>
+        <li><a href="{{ path('wellnet_test_create_accreditation_node', {'method': 'createAccreditation'}) }}">createAccreditation</a>
+        </li>
+    </ul>
+
+    <h3>Eliot</h3>
+    <ul>
+        <li><a href="{{ path('wellnet_test_list_nodes', {'type': 'uncategorized_operator', 'method': 'getEliots'}) }}">getEliots</a>
+        </li>
+        <li>
+            <a href="{{ path('wellnet_test_get_node', {'nid': 23616, 'method': 'getEliotDetails'}) }}">getEliotDetails</a>
+        </li>
+        <li><a href="{{ path('wellnet_test_create_eliot_node', {'method': 'createEliot'}) }}">createEliot</a></li>
+        <li><a href="{{ path('wellnet_test_contributions_get_eliot_types', {'method': 'getEliotTypes'}) }}">getEliotTypes</a>
+        </li>
+    </ul>
+
+    <h3>Accommodation</h3>
+    <ul>
+        <li><a href="{{ path('wellnet_test_list_nodes', {'type': 'accommodation', 'method': 'getAccommodations'}) }}">getAccommodations</a>
+        </li>
+        <li><a href="{{ path('wellnet_test_get_node', {'nid': 23601, 'method': 'getAccommodatioDetail'}) }}">getAccommodatioDetail</a>
+        </li>
+    </ul>
+
+    <h3>Group</h3>
+    <ul>
+        <li><a href="{{ path('wellnet_test_list_nodes', {'type': 'group', 'method': 'getGroups'}) }}">getGroups</a></li>
+        <li>
+            <a href="{{ path('wellnet_test_get_node', {'nid': 23669, 'method': 'getGroupDetails'}) }}">getGroupDetails</a>
+        </li>
+        <li><a href="{{ path('wellnet_test_get_group_members', {'gid': 23669, 'method': 'getGroupMembers'}) }}">getGroupMembers</a>
+        </li>
+        <li><a href="{{ path('wellnet_test_get_group_services', {'gid': 23669, 'method': 'getGroupServices'}) }}">getGroupServices</a>
+        </li>
+    </ul>
+
+    <h3>Forum</h3>
+    <ul>
+        <li>
+            <a href="{{ path('wellnet_test_list_nodes_topic', {'type': 'topic', 'method': 'getTopics'}) }}">getTopics</a>
+        </li>
+        <li><a href="{{ path('wellnet_test_create_topic_tag', {'name': 'Test tag', 'method': 'createTopicTag'}) }}">createTopicTag</a>
+        </li>
+        <li><a href="{{ path('wellnet_test_create_file', {'method': 'createFile'}) }}">createFile</a></li>
+        <li><a href="{{ path('wellnet_test_create_topic_node', {'method': 'createTopic'}) }}">createTopic</a></li>
+        <li><a href="{{ path('wellnet_test_get_node', {'nid': 23665, 'method': 'getTopicDetail'}) }}">getTopicDetail</a>
+        </li>
+        <li><a href="{{ path('wellnet_test_list_comments', {'nid': 23665, 'method': 'getComments'}) }}">getComments</a>
+        </li>
+        <li><a href="{{ path('wellnet_test_create_comments', {'nid': 23665, 'method': 'createComment'}) }}">createComment</a>
+        </li>
+        <li>
+            <a href="{{ path('wellnet_test_get_comments', {'cid': 5, 'method': 'getCommentDetail'}) }}">getCommentDetail</a>
+        </li>
+    </ul>
+
+    <h3>Contributions - event</h3>
+    <ul>
+        <li><a href="{{ path('wellnet_test_list_nodes', {'type': 'event', 'method': 'getEvents'}) }}">getEvents</a></li>
+        <li><a href="{{ path('wellnet_test_create_event_node', {'method': 'createEvent'}) }}">createEvent</a></li>
+        <li><a href="{{ path('wellnet_test_get_node', {'nid': 23680, 'method': 'getEventDetail'}) }}">getEventDetail</a>
+        </li>
+        <li>
+            <a href="{{ path('wellnet_test_update_event_node', {'nid': 23747, 'method': 'updateEvent'}) }}">updateEvent</a>
+        </li>
+        <li><a href="{{ path('wellnet_test_contributions_publish', {'nid': 23740, 'method': 'publishContribution'}) }}">publishContribution</a>
+        </li>
+        <li><a href="{{ path('wellnet_test_list_comments', {'nid': 23675, 'method': 'getComments'}) }}">getComments</a>
+        </li>
+        <li><a href="{{ path('wellnet_test_create_comments', {'nid': 23675, 'method': 'createComments'}) }}">createComments</a>
+        </li>
+        <li>
+            <a href="{{ path('wellnet_test_get_comments', {'cid': 7, 'method': 'getCommentDetail'}) }}">getCommentDetail</a>
+        </li>
+    </ul>
+
+    <h3>Contributions - poi</h3>
+    <ul>
+        <li><a href="{{ path('wellnet_test_list_nodes', {'type': 'poi', 'method': 'getPOIs'}) }}">getPOIs</a></li>
+        <li><a href="{{ path('wellnet_test_create_poi_node', {'method': 'createPOI'}) }}">createPOI</a></li>
+        <li><a href="{{ path('wellnet_test_get_node', {'nid': 23667, 'method': 'getPOIDetail'}) }}">getPOIDetail</a>
+        </li>
+        <li><a href="{{ path('wellnet_test_update_poi_node', {'nid': 23667, 'method': 'updatePOI'}) }}">updatePOI</a>
+        </li>
+        <li><a href="{{ path('wellnet_test_contributions_publish', {'nid': 23740, 'method': 'publishContribution'}) }}">publishContribution</a>
+        </li>
+        <li><a href="{{ path('wellnet_test_list_comments', {'nid': 23667, 'method': 'getComments'}) }}">getComments</a>
+        </li>
+        <li><a href="{{ path('wellnet_test_create_comments', {'nid': 23667, 'method': 'createComments'}) }}">createComments</a>
+        </li>
+        <li>
+            <a href="{{ path('wellnet_test_get_comments', {'cid': 5, 'method': 'getCommentDetail'}) }}">getCommentDetail</a>
+        </li>
+    </ul>
+
+    <h3>Contributions - image</h3>
+    <ul>
+        <li><a href="{{ path('wellnet_test_list_nodes', {'type': 'image', 'method': 'getImages'}) }}">getImages</a></li>
+        <li><a href="{{ path('wellnet_test_create_image_node', {'method': 'createImage'}) }}">createImage</a></li>
+        <li><a href="{{ path('wellnet_test_get_node', {'nid': 23679, 'method': 'getImageDetail'}) }}">getImageDetail</a>
+        </li>
+        <li><a href="{{ path('wellnet_test_update_image_node', {'nid': 23679, 'method': 'Update'}) }}">Update</a></li>
+        <li><a href="{{ path('wellnet_test_contributions_publish', {'nid': 23740, 'method': 'publishContribution'}) }}">publishContribution</a>
+        </li>
+        <li><a href="{{ path('wellnet_test_list_comments', {'nid': 23679, 'method': 'getComments'}) }}">getComments</a>
+        </li>
+        <li><a href="{{ path('wellnet_test_create_comments', {'nid': 23679, 'method': 'createComments'}) }}">createComments</a>
+        </li>
+        <li>
+            <a href="{{ path('wellnet_test_get_comments', {'cid': 5, 'method': 'getCommentDetail'}) }}">getCommentDetail</a>
+        </li>
+    </ul>
+
+    <h3>Workshop</h3>
+    <ul>
+        <li>
+            <a href="{{ path('wellnet_test_list_nodes', {'type': 'workshop', 'method': 'getWorkshops'}) }}">getWorkshops</a>
+        </li>
+        <li><a href="{{ path('wellnet_test_get_node', {'nid': 22451, 'method': 'getWorkshopDetail'}) }}">getWorkshopDetail</a>
+        </li>
+        <li>
+            <a href="{{ path('wellnet_test_get_workshop_attendees', {'nid': 22451, 'method': 'getWorkshopAttendees'}) }}">getWorkshopAttendees</a>
+        </li>
+        <li><a href="{{ path('wellnet_test_create_attendee_node', {'method': 'createAttendee'}) }}">createAttendee</a>
+        </li>
+    </ul>
+
+    <h3>Webform</h3>
+    <ul>
+        <li><a href="{{ path('wellnet_test_list_webform', {'method': 'getWebform'}) }}">getWebform</a></li>
+        <li>
+            <a href="{{ path('wellnet_test_get_webform', {'nid': 'ce29231f-6e88-48a7-a3af-362623d8ee55', 'method': 'getWebformDetails'}) }}">getWebformDetails</a>
+        </li>
+        <li>
+            <a href="{{ path('wellnet_test_webform_submission', {'nid': 'ce29231f-6e88-48a7-a3af-362623d8ee55', 'method': 'getWebformSubmission'}) }}">getWebformSubmission</a>
+        </li>
     </ul>
 
 {% endblock %}

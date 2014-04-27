@@ -12,25 +12,23 @@ use Symfony\Component\HttpFoundation\Session\Storage\NativeSessionStorage;
 
 class ThreeLeggedController extends BaseClientController {
 
-  private $request_token_uri;
-  private $authorize_uri;
-  private $access_token_uri;
-  private $consumer_key;
-  private $consumer_secret;
-  private $resource_uri;
+  protected $request_token_uri;
+  protected $authorize_uri;
+  protected $access_token_uri;
+  protected $consumer_key;
+  protected $consumer_secret;
 
   /**
    * @param Request $request
    *
    * @return Response
    */
-  public function indexAction(Request $request) {
+  public function serviceAction(Request $request) {
     $this->request_token_uri = $this->container->getParameter('request_token_uri');
     $this->authorize_uri = $this->container->getParameter('authorize_uri');
     $this->access_token_uri = $this->container->getParameter('access_token_uri');
     $this->consumer_key = $this->container->getParameter('consumer_key_3legged');
     $this->consumer_secret = $this->container->getParameter('consumer_secret_3legged');
-    $this->resource_uri = $this->container->getParameter('resource_uri');
 
     $storage = new NativeSessionStorage(array(), new NativeFileSessionHandler());
     $session = new Session($storage);
@@ -57,7 +55,7 @@ class ThreeLeggedController extends BaseClientController {
       }
     }
     if (isset ($access_token)) {
-      $data = $this->fetch($this->resource_uri, $session); // all that hard work just to get this line working
+      $data = $this->fetch($session, $request); // all that hard work just to get this line working
     }
 
     return $this->render('WellnetTestBundle:Default:response.html.twig', array('data' => $data));
@@ -110,15 +108,15 @@ class ThreeLeggedController extends BaseClientController {
   }
 
   /**
-   * Fetches the resource using OAuth access token.
+   * @param $session
+   * @param $request
    *
-   * @param $resource_uri
-   * @param Session $session
-   *
-   * @return array $array
+   * @return mixed
    */
-  private function fetch($resource_uri, $session) {
-    $client = new Client($resource_uri);
+  protected function fetch(Session $session, Request $request) {
+    $serviceData = $this->getServiceData($request);
+
+    $client = new Client($serviceData['uri']);
     $oauth = new OauthPlugin(array(
       'consumer_key' => $this->consumer_key,
       'consumer_secret' => $this->consumer_secret,
@@ -127,10 +125,19 @@ class ThreeLeggedController extends BaseClientController {
     ));
     $client->addSubscriber($oauth);
 
-    $request = $client->get();
+    $request = $client->$serviceData['method']();
     $response = $request->send();
 
     return $response;
+  }
+
+  /**
+   * @param Request $request
+   *
+   * @return array
+   */
+  protected function getServiceData(Request $request) {
+    return array();
   }
 
   /**

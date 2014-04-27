@@ -9,7 +9,7 @@ use Guzzle\Http\Client;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class FileController extends BaseClientController {
+class FileController extends ThreeLeggedController {
 
   /**
    * @param Request $request
