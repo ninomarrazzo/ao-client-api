@@ -5,7 +5,7 @@ namespace Wellnet\Bundle\TestBundle\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class TopicNodeController extends ThreeLeggedController {
+class TopicNodeController extends BaseClientController {
 
   /**
    * @param Request $request
@@ -14,9 +14,9 @@ class TopicNodeController extends ThreeLeggedController {
    * @return Response
    */
   public function indexAction(Request $request, $type = 'topic') {
-    $client = $this->getClient($request);
+    $client = $this->getOauthClient($request);
 
-    $request = $client->get('/en/api/1.0/node');
+    $request = $client->get("{$this->getBaseUrl()}/node");
     $query = $request->getQuery();
     $query->set('parameters', array('type' => $type, 'og_group_ref' => 23669));
     $data = $request->send();
@@ -30,9 +30,9 @@ class TopicNodeController extends ThreeLeggedController {
    * @return Response
    */
   public function createAction(Request $request) {
-    $client = $this->getClient($request);
+    $client = $this->getOauthClient($request);
 
-    $request = $client->post('/en/api/1.0/node', NULL, array(
+    $request = $client->post("{$this->getBaseUrl()}/node", NULL, array(
       'node' => array(
         'type' => 'topic',
         'title' => 'Topic di test',
@@ -58,9 +58,9 @@ class TopicNodeController extends ThreeLeggedController {
    * @return Response
    */
   public function createTagAction(Request $request, $name) {
-    $client = $this->getClient($request);
+    $client = $this->getOauthClient($request);
 
-    $request = $client->post('/en/api/1.0/contributions/create_tag', NULL, array(
+    $request = $client->post("{$this->getBaseUrl()}/contributions/create_tag", NULL, array(
       'name' => $name,
     ));
     $data = $request->send();
@@ -75,15 +75,13 @@ class TopicNodeController extends ThreeLeggedController {
    * @return Response
    */
   public function updateAction(Request $request, $nid) {
-    $client = $this->getPutClient($request);
+    $client = $this->getOauthPutClient($request);
 
-    $request = $client->put("/en/api/1.0/node/{$nid}", NULL, array(
+    $request = $client->put("{$this->getBaseUrl()}/node/{$nid}", NULL, array(
       'title' => 'Cambio titolo Topic',
     ));
     $data = $request->send();
 
     return $this->render('WellnetTestBundle:Default:response.html.twig', array('data' => $data));
   }
-
-
 }

@@ -5,7 +5,7 @@ namespace Wellnet\Bundle\TestBundle\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class TaxonomyController extends ThreeLeggedController {
+class TaxonomyController extends BaseClientController {
 
   /**
    * @return Response
@@ -21,9 +21,9 @@ class TaxonomyController extends ThreeLeggedController {
    * @return Response
    */
   public function indexAction(Request $request, $type) {
-    $client = $this->getClient($request);
+    $client = $this->getOauthClient($request);
 
-    $request = $client->get('/en/api/1.0/node');
+    $request = $client->get("{$this->getBaseUrl()}/node");
     $query = $request->getQuery();
     $query->set('parameters', array('type' => $type));
     $data = $request->send();
@@ -38,9 +38,9 @@ class TaxonomyController extends ThreeLeggedController {
    * @return Response
    */
   public function getAction(Request $request, $nid) {
-    $client = $this->getClient($request);
+    $client = $this->getOauthClient($request);
 
-    $request = $client->get("/en/api/1.0/node/{$nid}");
+    $request = $client->get("{$this->getBaseUrl()}/node/{$nid}");
     $data = $request->send();
 
     return $this->render('WellnetTestBundle:Default:response.html.twig', array('data' => $data));

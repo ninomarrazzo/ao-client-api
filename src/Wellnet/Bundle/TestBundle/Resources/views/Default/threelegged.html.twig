@@ -5,6 +5,18 @@
         <h1>3-legged</h1>
     </div>
 
+    <div>
+        {% if(access_token) %}
+            <p>You are already authenticated.</p>
+        {% else %}
+            <a href="{{ path('wellnet_test_3legged_callback') }}" class="btn btn-default">Login</a>
+        {% endif %}
+    </div>
+
+    <div>
+        <a href="{{ path('wellnet_test_3legged_destroy') }}" class="btn btn-default">Logout</a>
+    </div>
+
     <h3>Structure</h3>
     <ul>
         <li><a href="{{ path('wellnet_test_get_structure', {'type': 'attendee', 'method': 'getNodeStructure'}) }}">getNodeStructure</a>

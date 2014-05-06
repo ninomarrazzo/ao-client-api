@@ -4,86 +4,50 @@ namespace Wellnet\Bundle\TestBundle\Controller;
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Guzzle\Http\Client;
-use Guzzle\Plugin\Oauth\OauthPlugin;
-use Symfony\Component\HttpFoundation\Session\Session;
 
-class WebformController extends ThreeLeggedController {
+class WebformController extends BaseClientController {
 
   /**
-   * @param $session
-   * @param $request
+   * @param Request $request
    *
-   * @return mixed
+   * @return Response
    */
-  protected function fetch(Session $session, Request $request) {
-    $route = $request->get('_route');
+  public function indexWebformAction(Request $request) {
+    $client = $this->getOauthClient($request);
 
-    $client = new Client($this->container->getParameter('server_url'));
-    $oauth = new OauthPlugin(array(
-      'consumer_key' => $this->consumer_key,
-      'consumer_secret' => $this->consumer_secret,
-      'token' => $session->get('access_token'),
-      'token_secret' => $session->get('access_token_secret'),
-    ));
-    $client->addSubscriber($oauth);
+    $request = $client->get("{$this->getBaseUrl()}/webform");
+    $data = $request->send();
 
-    $response = NULL;
-    switch ($route) {
-      case 'wellnet_test_list_webform':
-        $response = $this->indexWebformAction($request, $client);
-        break;
-      case 'wellnet_test_get_webform':
-        $response = $this->getWebformAction($request, $client);
-        break;
-      case 'wellnet_test_webform_submission':
-        $response = $this->getSubmissionAction($request, $client);
-        break;
-    }
-
-    return $response;
+    return $this->render('WellnetTestBundle:Default:response.html.twig', array('data' => $data));
   }
 
   /**
    * @param Request $request
-   * @param $client
+   * @param $nid
    *
    * @return Response
    */
-  public function indexWebformAction(Request $request, Client $client) {
-    $request = $client->get('/en/api_3_legs/1.0/webform');
-    $response = $request->send();
+  public function getWebformAction(Request $request, $nid) {
+    $client = $this->getOauthClient($request);
 
-    return $response;
+    $request = $client->get("{$this->getBaseUrl()}/webform/{$nid}");
+    $data = $request->send();
+
+    return $this->render('WellnetTestBundle:Default:response.html.twig', array('data' => $data));
   }
 
   /**
    * @param Request $request
-   * @param $client
+   * @param $nid
    *
    * @return Response
    */
-  public function getWebformAction(Request $request, Client $client) {
-    $nid = $request->get('nid');
+  public function getSubmissionAction(Request $request, $nid) {
+    $client = $this->getOauthClient($request);
 
-    $request = $client->get("/en/api_3_legs/1.0/webform/{$nid}");
-    $response = $request->send();
+    $request = $client->get("{$this->getBaseUrl()}/webform/{$nid}/submissions");
+    $data = $request->send();
 
-    return $response;
-  }
-
-  /**
-   * @param Request $request
-   * @param $client
-   *
-   * @return Response
-   */
-  public function getSubmissionAction(Request $request, Client $client) {
-    $nid = $request->get('nid');
-
-    $request = $client->get("/en/api_3_legs/1.0/webform/{$nid}/submissions");
-    $response = $request->send();
-
-    return $response;
+    return $this->render('WellnetTestBundle:Default:response.html.twig', array('data' => $data));
   }
 }

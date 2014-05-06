@@ -13,9 +13,9 @@ class ContributionController extends BaseClientController {
    * @return Response
    */
   public function getThemesAction(Request $request) {
-    $client = $this->getClient($request);
+    $client = $this->getOauthClient($request);
 
-    $request = $client->post('/en/api/1.0/contributions/get_themes');
+    $request = $client->post("{$this->getBaseUrl()}/contributions/get_themes");
     $data = $request->send();
 
     return $this->render('WellnetTestBundle:Default:response.html.twig', array('data' => $data));
@@ -28,9 +28,9 @@ class ContributionController extends BaseClientController {
    * @return Response
    */
   public function grantPointsAction(Request $request, $nid) {
-    $client = $this->getClient($request);
+    $client = $this->getOauthClient($request);
 
-    $request = $client->post('/en/api/1.0/contributions/grant_points', NULL, array(
+    $request = $client->post("{$this->getBaseUrl()}/contributions/grant_points", NULL, array(
       'nid' => $nid,
     ));
     $data = $request->send();
@@ -45,9 +45,9 @@ class ContributionController extends BaseClientController {
    * @return Response
    */
   public function removePointsAction(Request $request, $nid) {
-    $client = $this->getClient($request);
+    $client = $this->getOauthClient($request);
 
-    $request = $client->post('/en/api/1.0/contributions/remove_points', NULL, array(
+    $request = $client->post("{$this->getBaseUrl()}/contributions/remove_points", NULL, array(
       'nid' => $nid,
     ));
     $data = $request->send();
@@ -61,9 +61,9 @@ class ContributionController extends BaseClientController {
    * @return Response
    */
   public function listMediasAction(Request $request) {
-    $client = $this->getClient($request);
+    $client = $this->getOauthClient($request);
 
-    $request = $client->post('/en/api/1.0/contributions/list_medias', NULL, array());
+    $request = $client->post("{$this->getBaseUrl()}/contributions/list_medias", NULL, array());
     $data = $request->send();
 
     return $this->render('WellnetTestBundle:Default:response.html.twig', array('data' => $data));
@@ -76,9 +76,9 @@ class ContributionController extends BaseClientController {
    * @return Response
    */
   public function getMediaAction(Request $request, $nid) {
-    $client = $this->getClient($request);
+    $client = $this->getOauthClient($request);
 
-    $request = $client->post("/en/api/1.0/contributions/get_media/{$nid}");
+    $request = $client->post("{$this->getBaseUrl()}/contributions/get_media/{$nid}");
     $data = $request->send();
 
     return $this->render('WellnetTestBundle:Default:response.html.twig', array('data' => $data));
@@ -91,9 +91,9 @@ class ContributionController extends BaseClientController {
    * @return Response
    */
   public function getMediaFileAction(Request $request, $fid) {
-    $client = $this->getClient($request);
+    $client = $this->getOauthClient($request);
 
-    $request = $client->get("/en/api/1.0/file/{$fid}");
+    $request = $client->get("{$this->getBaseUrl()}file/{$fid}");
     $data = $request->send();
 
     return $this->render('WellnetTestBundle:Default:response.html.twig', array('data' => $data));
@@ -106,9 +106,9 @@ class ContributionController extends BaseClientController {
    * @return Response
    */
   public function getRelatedAction(Request $request, $nid) {
-    $client = $this->getClient($request);
+    $client = $this->getOauthClient($request);
 
-    $request = $client->post("/en/api/1.0/contributions/get_related/{$nid}");
+    $request = $client->post("{$this->getBaseUrl()}/contributions/get_related/{$nid}");
     $data = $request->send();
 
     return $this->render('WellnetTestBundle:Default:response.html.twig', array('data' => $data));
@@ -121,9 +121,9 @@ class ContributionController extends BaseClientController {
    * @return Response
    */
   public function publishAction(Request $request, $nid) {
-    $client = $this->getClient($request);
+    $client = $this->getOauthClient($request);
 
-    $request = $client->post('/en/api/1.0/contributions/publish', NULL, array(
+    $request = $client->post("{$this->getBaseUrl()}/contributions/publish", NULL, array(
       'nid' => $nid,
     ));
     $data = $request->send();

@@ -5,7 +5,7 @@ namespace Wellnet\Bundle\TestBundle\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class GroupController extends ThreeLeggedController {
+class GroupController extends BaseClientController {
 
   /**
    * @param Request $request
@@ -14,9 +14,9 @@ class GroupController extends ThreeLeggedController {
    * @return Response
    */
   public function getMembersAction(Request $request, $gid) {
-    $client = $this->getClient($request);
+    $client = $this->getOauthClient($request);
 
-    $request = $client->post('/en/api/1.0/groups/get_members', NULL, array(
+    $request = $client->post("{$this->getBaseUrl()}/groups/get_members", NULL, array(
       'gid' => $gid,
     ));
     $data = $request->send();
@@ -31,9 +31,9 @@ class GroupController extends ThreeLeggedController {
    * @return Response
    */
   public function getServicesAction(Request $request, $gid) {
-    $client = $this->getClient($request);
+    $client = $this->getOauthClient($request);
 
-    $request = $client->post('/en/api/1.0/groups/get_services', NULL, array(
+    $request = $client->post("{$this->getBaseUrl()}/groups/get_services", NULL, array(
       'gid' => $gid,
     ));
     $data = $request->send();

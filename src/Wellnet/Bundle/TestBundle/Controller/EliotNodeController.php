@@ -5,7 +5,7 @@ namespace Wellnet\Bundle\TestBundle\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class EliotNodeController extends ThreeLeggedController {
+class EliotNodeController extends BaseClientController {
 
   /**
    * @param Request $request
@@ -13,9 +13,9 @@ class EliotNodeController extends ThreeLeggedController {
    * @return Response
    */
   public function createAction(Request $request) {
-    $client = $this->getClient($request);
+    $client = $this->getOauthClient($request);
 
-    $request = $client->post('/en/api/1.0/node', NULL, array(
+    $request = $client->post("{$this->getBaseUrl()}/node", NULL, array(
       'node' => array(
         'type' => 'uncategorized_operator',
         'title' => 'Eliot di test',
@@ -52,9 +52,9 @@ class EliotNodeController extends ThreeLeggedController {
    * @return Response
    */
   public function getTypesAction(Request $request) {
-    $client = $this->getClient($request);
+    $client = $this->getOauthClient($request);
 
-    $request = $client->get("/en/api/1.0/taxonomy_term");
+    $request = $client->get("{$this->getBaseUrl()}/taxonomy_term");
     $query = $request->getQuery();
     $query->set('parameters', array('vid' => 10));
     $data = $request->send();

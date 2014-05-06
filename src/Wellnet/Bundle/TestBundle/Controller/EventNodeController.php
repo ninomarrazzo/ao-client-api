@@ -5,7 +5,7 @@ namespace Wellnet\Bundle\TestBundle\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class EventNodeController extends ThreeLeggedController {
+class EventNodeController extends BaseClientController {
 
   /**
    * @param Request $request
@@ -13,9 +13,9 @@ class EventNodeController extends ThreeLeggedController {
    * @return Response
    */
   public function createAction(Request $request) {
-    $client = $this->getClient($request);
+    $client = $this->getOauthClient($request);
 
-    $request = $client->post('/en/api/1.0/node', NULL, array(
+    $request = $client->post("{$this->getBaseUrl()}/node", NULL, array(
       'node' => array(
         'type' => 'event',
         'title' => 'Altro evento di test',
@@ -70,9 +70,9 @@ class EventNodeController extends ThreeLeggedController {
    * @return Response
    */
   public function updateAction(Request $request, $nid) {
-    $client = $this->getPutClient($request);
+    $client = $this->getOauthPutClient($request);
 
-    $request = $client->put("/en/api/1.0/node/{$nid}", NULL, array(
+    $request = $client->put("{$this->getBaseUrl()}/node/{$nid}", NULL, array(
       'title' => 'Cambio titolo Event',
     ));
     $data = $request->send();
@@ -87,9 +87,9 @@ class EventNodeController extends ThreeLeggedController {
    * @return Response
    */
   public function deleteAction(Request $request, $nid) {
-    $client = $this->getClient($request);
+    $client = $this->getOauthClient($request);
 
-    $request = $client->delete("/en/api/1.0/node/{$nid}");
+    $request = $client->delete("{$this->getBaseUrl()}/node/{$nid}");
     $data = $request->send();
 
     return $this->render('WellnetTestBundle:Default:response.html.twig', array('data' => $data));

@@ -2,61 +2,78 @@
 
 namespace Wellnet\Bundle\TestBundle\Controller;
 
+use Guzzle\Http\QueryString;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
 
 class CommentController extends ThreeLeggedController {
 
   /**
-   * @param $request
-   * @param $nid
-   *
-   * @return Response
+   * {@inheritdoc}
    */
-  public function indexAction(Request $request, $nid) {
-    $client = $this->getClient($request);
+  protected function getServiceData(Request $request) {
+    $route = $request->get('_route');
 
-    $request = $client->get('/en/api/1.0/comment');
-    $query = $request->getQuery();
-    $query->set('parameters', array('nid' => $nid));
-    $data = $request->send();
+    $method = 'get';
+    $uri = '';
+    switch ($route) {
+      case 'wellnet_test_list_comments':
+        $method = 'get';
+        $uri = "comment";
+        break;
+      case 'wellnet_test_create_comments':
+        $method = 'post';
+        $uri = "comment";
+        break;
+      case 'wellnet_test_get_comments':
+        $cid = $request->get('cid');
 
-    return $this->render('WellnetTestBundle:Default:response.html.twig', array('data' => $data));
+        $method = 'get';
+        $uri = "comment/{$cid}";
+        break;
+    }
+
+    return array(
+      'method' => $method,
+      'uri' => $uri,
+    );
   }
 
   /**
-   * @param $request
-   * @param $nid
-   *
-   * @return Response
+   * {@inheritdoc}
    */
-  public function createAction(Request $request, $nid) {
-    $client = $this->getClient($request);
+  protected function getQuery($request, QueryString $query) {
+    $route = $request->get('_route');
 
-    $request = $client->post('/en/api/1.0/comment', NULL, array(
-      'comment' => array(
-        'subject' => 'Post di test5',
-        'nid' => $nid,
-        'comment_body' => array('und' => array(0 => array('value' => 'Lorem ipsum', 'format' => 'full_html'))),
-      )
-    ));
-    $data = $request->send();
+    switch ($route) {
+      case 'wellnet_test_list_comments':
+        $nid = $request->get('nid');
 
-    return $this->render('WellnetTestBundle:Default:response.html.twig', array('data' => $data));
+        $query->set('parameters', array('nid' => $nid));
+        break;
+    }
   }
 
   /**
-   * @param $request
-   * @param $cid
-   *
-   * @return Response
+   * {@inheritdoc}
    */
-  public function getAction(Request $request, $cid) {
-    $client = $this->getClient($request);
+  protected function getPayload($request) {
+    $route = $request->get('_route');
 
-    $request = $client->get("/en/api/1.0/comment/{$cid}");
-    $data = $request->send();
+    $payload = NULL;
+    switch ($route) {
+      case 'wellnet_test_create_comments':
+        $nid = $request->get('nid');
 
-    return $this->render('WellnetTestBundle:Default:response.html.twig', array('data' => $data));
+        $payload = array(
+          'comment' => array(
+            'subject' => 'Post di test5',
+            'nid' => $nid,
+            'comment_body' => array('und' => array(0 => array('value' => 'Lorem ipsum', 'format' => 'full_html'))),
+          ),
+        );
+        break;
+    }
+
+    return $payload;
   }
 }

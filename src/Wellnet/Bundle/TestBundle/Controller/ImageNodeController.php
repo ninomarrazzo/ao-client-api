@@ -5,7 +5,7 @@ namespace Wellnet\Bundle\TestBundle\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class ImageNodeController extends ThreeLeggedController {
+class ImageNodeController extends BaseClientController {
 
   /**
    * @param Request $request
@@ -13,9 +13,9 @@ class ImageNodeController extends ThreeLeggedController {
    * @return Response
    */
   public function createAction(Request $request) {
-    $client = $this->getClient($request);
+    $client = $this->getOauthClient($request);
 
-    $request = $client->post('/en/api/1.0/node', NULL, array(
+    $request = $client->post("{$this->getBaseUrl()}/node", NULL, array(
       'node' => array(
         'type' => 'image',
         'title' => 'Image di test',
@@ -53,9 +53,9 @@ class ImageNodeController extends ThreeLeggedController {
    * @return Response
    */
   public function updateAction(Request $request, $nid) {
-    $client = $this->getPutClient($request);
+    $client = $this->getOauthPutClient($request);
 
-    $request = $client->put("/en/api/1.0/node/{$nid}", NULL, array(
+    $request = $client->put("{$this->getBaseUrl()}/node/{$nid}", NULL, array(
       'title' => 'Cambio titolo Image',
     ));
     $data = $request->send();

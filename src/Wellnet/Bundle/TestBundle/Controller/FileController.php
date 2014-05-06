@@ -9,7 +9,7 @@ use Guzzle\Http\Client;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class FileController extends ThreeLeggedController {
+class FileController extends BaseClientController {
 
   /**
    * @param Request $request
@@ -17,12 +17,12 @@ class FileController extends ThreeLeggedController {
    * @return Response
    */
   public function createAction(Request $request) {
-    $client = $this->getClient($request);
+    $client = $this->getOauthClient($request);
 
     // URL file for upload
     $file = '/Users/wellnetmini/Desktop/mare.jpg';
 
-    $request = $client->post('/en/api/1.0/file', NULL, array(
+    $request = $client->post("{$this->getBaseUrl()}/file", NULL, array(
       'filename' => basename($file),
       'filemime' => "image/jpeg",
       'file' => base64_encode(file_get_contents($file)),

@@ -3,42 +3,51 @@
 namespace Wellnet\Bundle\TestBundle\Controller;
 
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
-class UserController extends ThreeLeggedController {
+class UserController extends BaseClientController {
 
   /**
    * @param Request $request
    *
-   * @return array
+   * @return Response
    */
-  protected function getServiceData(Request $request) {
-    $route = $request->get('_route');
-    $server_url = $this->container->getParameter('server_url');
+  public function indexAction(Request $request) {
+    $client = $this->getOauthClient($request);
 
-    $method = 'get';
-    $uri = '';
-    switch ($route) {
-      case 'wellnet_test_list_users':
-        $method = 'get';
-        $uri = "{$server_url}/en/api_3_legs/1.0/user";
-        break;
-      case 'wellnet_test_get_user':
-        $uid = $request->get('uid');
+    $request = $client->get("{$this->getBaseUrl()}/user");
+    $data = $request->send();
 
-        $method = 'get';
-        $uri = "{$server_url}/en/api_3_legs/1.0/user/{$uid}";
-        break;
-      case 'wellnet_test_get_user_accreditation':
-        $id = $request->get('id');
+    return $this->render('WellnetTestBundle:Default:response.html.twig', array('data' => $data));
+  }
 
-        $method = 'post';
-        $uri = "{$server_url}/en/api_3_legs/1.0/accreditation/get_user_accreditations/{$id}";
-        break;
-    }
+  /**
+   * @param Request $request
+   * @param $uid
+   *
+   * @return Response
+   */
+  public function getAction(Request $request, $uid) {
+    $client = $this->getOauthClient($request);
 
-    return array(
-      'method' => $method,
-      'uri' => $uri,
-    );
+    $request = $client->get("{$this->getBaseUrl()}/user/{$uid}");
+    $data = $request->send();
+
+    return $this->render('WellnetTestBundle:Default:response.html.twig', array('data' => $data));
+  }
+
+  /**
+   * @param Request $request
+   * @param $id
+   *
+   * @return Response
+   */
+  public function getAccreditationAction(Request $request, $id) {
+    $client = $this->getOauthClient($request);
+
+    $request = $client->post("{$this->getBaseUrl()}/accreditation/get_user_accreditations/{$id}");
+    $data = $request->send();
+
+    return $this->render('WellnetTestBundle:Default:response.html.twig', array('data' => $data));
   }
 }

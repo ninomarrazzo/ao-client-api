@@ -2,10 +2,14 @@
 
 namespace Wellnet\Bundle\TestBundle\Controller;
 
+use Guzzle\Http\Message\RequestInterface;
 use Guzzle\Plugin\Oauth\OauthPlugin;
+use Monolog\Logger;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Guzzle\Http\Client;
+use Guzzle\Http\QueryString;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\HttpFoundation\Session\Storage\Handler\NativeFileSessionHandler;
 use Symfony\Component\HttpFoundation\Session\Storage\NativeSessionStorage;
@@ -30,14 +34,16 @@ class ThreeLeggedController extends BaseClientController {
     $this->consumer_key = $this->container->getParameter('consumer_key_3legged');
     $this->consumer_secret = $this->container->getParameter('consumer_secret_3legged');
 
-    $storage = new NativeSessionStorage(array(), new NativeFileSessionHandler());
-    $session = new Session($storage);
+    /** @var Logger $logger */
+    $logger = $this->container->get('logger');
+
+    $session = new Session();
     $session->start();
 
     $request_token_secret = $session->get('request_token_secret');
     $access_token = $session->get('access_token');
 
-    $data = array();
+    //$data = array();
     if (empty($request_token_secret)) {
       $request_token_array = $this->getRequestToken($this->request_token_uri);
       $session->set('request_token', $request_token_array['oauth_token']);
@@ -55,10 +61,18 @@ class ThreeLeggedController extends BaseClientController {
       }
     }
     if (isset ($access_token)) {
-      $data = $this->fetch($session, $request); // all that hard work just to get this line working
+      return new RedirectResponse($this->generateUrl('wellnet_test_3legged'));
     }
+  }
 
-    return $this->render('WellnetTestBundle:Default:response.html.twig', array('data' => $data));
+  /**
+   *
+   */
+  public function destroyAction() {
+    $session = new Session();
+    $session->invalidate();
+
+    return new RedirectResponse($this->generateUrl('wellnet_test_3legged'));
   }
 
   /**
@@ -105,39 +119,6 @@ class ThreeLeggedController extends BaseClientController {
     $response = $request->send()->getBody(TRUE);
     $data = $this->parseResponse($response);
     return $data;
-  }
-
-  /**
-   * @param $session
-   * @param $request
-   *
-   * @return mixed
-   */
-  protected function fetch(Session $session, Request $request) {
-    $serviceData = $this->getServiceData($request);
-
-    $client = new Client($serviceData['uri']);
-    $oauth = new OauthPlugin(array(
-      'consumer_key' => $this->consumer_key,
-      'consumer_secret' => $this->consumer_secret,
-      'token' => $session->get('access_token'),
-      'token_secret' => $session->get('access_token_secret'),
-    ));
-    $client->addSubscriber($oauth);
-
-    $request = $client->$serviceData['method']();
-    $response = $request->send();
-
-    return $response;
-  }
-
-  /**
-   * @param Request $request
-   *
-   * @return array
-   */
-  protected function getServiceData(Request $request) {
-    return array();
   }
 
   /**
